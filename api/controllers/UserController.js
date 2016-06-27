@@ -12,7 +12,7 @@ create: function (req, res) {
 if(req.method=="POST"&&req.param("User",null)!=null)
 {
 
-User.create(req.param("User")).done(function(err,model){
+User.create(req.param("User"),function(err,model){
 
 // Error handling
 if (err) {
@@ -20,8 +20,9 @@ if (err) {
 res.send("Error:Sorry!Something went Wrong");
 
 }else {
-res.send("Successfully Created!");
-//res.redirect( ‘user/view/’+model.id);
+//res.send("Successfully Created!");
+//console.log("Successfully Created!");
+res.redirect( 'user/view/'+model.id);
 
 }
 
@@ -31,7 +32,7 @@ res.send("Successfully Created!");
 else
 {
 
-res.render( 'user/create');
+res.render( 'users/create');
 }
 
 },
@@ -39,7 +40,7 @@ index: function (req, res) {
 
 User.find().exec(function(err, users) {
 
-res.render( 'user/index',{'users':users});
+res.render( 'users/index',{'users':users});
 return;
 
 });
@@ -49,9 +50,9 @@ view: function (req, res) {
 
 var id=req.param("id",null);
 
-User.findOne(id).done(function(err,model){
+User.findOne(id).exec(function(err,model){
 
-res.render( 'user/view',{'model':model});
+res.render( 'users/view',{'model':model});
 
 });
 
@@ -61,18 +62,18 @@ update: function (req, res) {
 
 var id=req.param("id",null);
 
-User.findOne(id).done(function(err, model) {
+User.findOne(id).exec(function(err, model) {
 
 if(req.method=="POST"&&req.param("User",null)!=null)
 {
 
 var usr=req.param("User",null);
 
-model.fname=usr.fName;
-model.mname=usr.mName;
-model.lname=usr.lName;
+model.fName=usr.fName;
+model.mName=usr.mName;
+model.lName=usr.lName;
 model.dob=usr.dob;
-model.username=usr.Username;
+model.Username=usr.Username;
 model.password=usr.password;
 model.email=usr.email;
 
@@ -94,18 +95,17 @@ res.redirect( 'user/view/'+model.id);
 else
 {
 
-res.render( 'user/update',{'model':model});
+res.render( 'users/update',{'model':model});
 }
 
 });
 
 },
 
-destroy: function (req, res) {
+delete: function (req, res) {
 
 var id=req.param("id",null);
-
-User.findOne(id).done(function(err, usar) {
+User.findOne(id).exec(function(err, usar) {
 
 usar.destroy(function(err) {
 

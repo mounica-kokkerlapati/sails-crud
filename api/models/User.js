@@ -8,6 +8,11 @@
 module.exports = {
 
   attributes: {
+  	FirstName:'STRING',
+  	LastName:'STRING',
+  	DOB:'STRING',
+  	UserName:'STRING',
+  	Password:'STRING'
 
   }
 };
